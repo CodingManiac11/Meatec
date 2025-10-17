@@ -4,16 +4,14 @@ import './index.css'
 import App from './App.tsx'
 
 async function enableMocking() {
-  if (import.meta.env.DEV) {
-    const { worker } = await import('./mocks/browser')
-    return worker.start({
-      onUnhandledRequest: 'bypass',
-    }).then(() => {
-      console.log('🔶 MSW worker started successfully!')
-    }).catch((error) => {
-      console.error('❌ MSW worker failed to start:', error)
-    })
-  }
+  // Enable MSW in both development and production since this is a frontend-only app
+  const { worker } = await import('./mocks/browser')
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+    serviceWorker: {
+      url: '/mockServiceWorker.js'
+    }
+  })
 }
 
 enableMocking().then(() => {

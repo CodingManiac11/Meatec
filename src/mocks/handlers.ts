@@ -53,11 +53,6 @@ export const handlers = [
   // Authentication endpoints
   http.post('/api/login', async ({ request }) => {
     const credentials = await request.json() as LoginCredentials;
-    console.log('🔶 MSW: Received login request:', credentials);
-    console.log('🔍 MSW: Username received:', `"${credentials.username}"` + ` (length: ${credentials.username?.length})`);
-    console.log('🔍 MSW: Password received:', `"${credentials.password}"` + ` (length: ${credentials.password?.length})`);
-    console.log('🔍 MSW: Expected username:', `"test" (length: 4)`);
-    console.log('🔍 MSW: Expected password:', `"test123" (length: 7)`);
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 800));
@@ -67,13 +62,9 @@ export const handlers = [
         user: mockUser,
         token: mockToken,
       };
-      console.log('✅ MSW: Login successful, returning:', response);
       return HttpResponse.json(response);
     }
     
-    console.log('❌ MSW: Invalid credentials - comparison failed');
-    console.log('🔍 MSW: Username match:', credentials.username === 'test');
-    console.log('🔍 MSW: Password match:', credentials.password === 'test123');
     return HttpResponse.json(
       { message: 'Invalid credentials' },
       { status: 401 }

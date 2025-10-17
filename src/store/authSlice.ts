@@ -30,9 +30,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      console.log('🔵 Attempting login with:', credentials);
       const response = await axios.post<AuthResponse>('/api/login', credentials);
-      console.log('✅ Login response:', response.data);
       const { user, token } = response.data;
       
       // Save to localStorage
@@ -41,7 +39,6 @@ export const loginUser = createAsyncThunk(
       
       return { user, token };
     } catch (error: any) {
-      console.error('❌ Login error:', error);
       return rejectWithValue(
         error.response?.data?.message || 'Login failed'
       );

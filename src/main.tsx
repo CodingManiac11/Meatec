@@ -8,6 +8,10 @@ async function enableMocking() {
     const { worker } = await import('./mocks/browser')
     return worker.start({
       onUnhandledRequest: 'bypass',
+    }).then(() => {
+      console.log('🔶 MSW worker started successfully!')
+    }).catch((error) => {
+      console.error('❌ MSW worker failed to start:', error)
     })
   }
 }

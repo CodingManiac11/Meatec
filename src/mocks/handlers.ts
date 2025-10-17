@@ -53,6 +53,7 @@ export const handlers = [
   // Authentication endpoints
   http.post('/api/login', async ({ request }) => {
     const credentials = await request.json() as LoginCredentials;
+    console.log('🔶 MSW: Received login request:', credentials);
     
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 800));
@@ -62,9 +63,11 @@ export const handlers = [
         user: mockUser,
         token: mockToken,
       };
+      console.log('✅ MSW: Login successful, returning:', response);
       return HttpResponse.json(response);
     }
     
+    console.log('❌ MSW: Invalid credentials');
     return HttpResponse.json(
       { message: 'Invalid credentials' },
       { status: 401 }
